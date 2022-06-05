@@ -1,0 +1,18 @@
+version: "3"
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=+KDRV42elL3qLzs83+Mq8zQ+h+aLunnB2d62g/apNm4=
+      - WIREGUARD_ADDRESSES=10.67.161.241/32
+      - SERVER_CITIES=Atlanta GA
+      - FIREWALL_VPN_INPUT_PORTS=60356
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+    restart: unless-stopped

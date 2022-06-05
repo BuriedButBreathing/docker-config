@@ -1,0 +1,35 @@
+---
+version: "2.1"
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+      - WEBUI_PORT=8080
+    network_mode: "container:netstack_gluetun_1"
+    volumes:
+      - /home/chiggs/docker/volumes/qbittorent:/config
+      - /plexdrive/downloads/torrents/:/downloads
+        # ports:
+        #    - 6881:6881
+        #    - 6881:6881/udp
+        #    - 8080:8080
+    restart: unless-stopped
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+        #    network_mode: "container:mullvad-vpn_gluetun_1"
+    volumes:
+      - /home/chiggs/docker/volumes/sabnzbd:/config
+      - /plexdrive/downloads/usenet/:/downloads #optional
+        # - /path/to/incomplete/downloads:/incomplete-downloads #optional
+    ports:
+      - 8081:8080
+    restart: unless-stopped

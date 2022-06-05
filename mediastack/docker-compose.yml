@@ -1,0 +1,29 @@
+---
+version: "2.1"
+services:
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /home/chiggs/docker/volumes/plex:/config
+      - /plexdrive/media/tv:/Television
+      - /plexdrive/media/movies:/Movies
+    restart: unless-stopped
+  tautulli:
+    image: lscr.io/linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - /user/chiggs/docker/tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
